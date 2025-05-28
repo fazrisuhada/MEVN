@@ -4,14 +4,16 @@
   "description": "dibuat menggunakan mongo express vue dan node",
   "license": "ISC",
   "author": "Fazri Suhada",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon app.js"
   },
   "dependencies": {
+    "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "mongoose": "^8.15.1",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.10"
   }
