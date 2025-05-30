@@ -1,0 +1,2 @@
+1. Implementasi backend ke frontend
+• npm i axios (library js untuk melakukan request Http(get,post,put,delete) ke server dari aplikasi frontends)

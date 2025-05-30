@@ -1,7 +1,0 @@
-1. installasi express.js
-• npm init
-• npm i express nodemon morgan
-##################################
-
-2. koneksi db mongo dan express
-• npm i dotenv mongoose

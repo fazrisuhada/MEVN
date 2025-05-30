@@ -1,13 +1,20 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 dotenv.config()
 const app = express()
 const port = 3000
 
+// middleware
+app.use(cors())
+
+// endpoint
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.status(200).json({
+    message: 'Fazri Suhada'
+  })
 })
 
 app.listen(port, () => {
