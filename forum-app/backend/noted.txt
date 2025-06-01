@@ -5,6 +5,11 @@
 2. koneksi db mongo dan express
 • npm i dotenv mongoose
 ##################################
-1. Implementasi backend ke frontend
+3. Implementasi backend ke frontend
 • install axios di frontend npm i axios (library js untuk melakukan request Http(get,post,put,delete) ke server dari aplikasi frontends)
 • install cors npm i cors (middleware untuk membatasi permintaan request dari domain lain ke server express)
+##################################
+4. install validator dan bpcryptjs untuk register dan login
+• npm i validator
+• npm i bpcryptjs
+##################################
