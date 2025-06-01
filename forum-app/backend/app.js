@@ -1,7 +1,11 @@
+// import package
 import express from 'express'
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import cors from 'cors'
+
+// import routers
+import authRouter from './routers/authRtr.js';
 
 dotenv.config()
 const app = express()
@@ -9,13 +13,10 @@ const port = 3000
 
 // middleware
 app.use(cors())
+app.use(express.json())
 
-// endpoint
-app.get('/', (req, res) => {
-  res.status(200).json({
-    message: 'Fazri Suhada'
-  })
-})
+// routes
+app.use('/api/v1/auth', authRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
