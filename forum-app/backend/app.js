@@ -1,8 +1,10 @@
 // import package
-import express from 'express'
-import mongoose from 'mongoose'
-import dotenv from 'dotenv'
-import cors from 'cors'
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
 
 // import routers
 import authRouter from './routers/authRtr.js';
@@ -15,6 +17,10 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
+app.use(cookieParser());
+if(process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 
 // routes
 app.use('/api/v1/auth', authRouter);

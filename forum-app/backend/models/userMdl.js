@@ -28,7 +28,8 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
 },{
-    timestamps: true
+    timestamps: true,
+    collection: 'users'
 });
 
 userSchema.pre('save', async function(next) {

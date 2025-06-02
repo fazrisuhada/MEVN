@@ -13,3 +13,7 @@
 • npm i validator
 • npm i bpcryptjs
 ##################################
+5. install jswon web token dan cookie parser
+• npm i jsonwebtoken
+• npm i cookie-parser
+##################################
