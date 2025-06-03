@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import { notFound, errorHandler } from './middlewares/errorHandler.js';
 
 // import routers
 import authRouter from './routers/authRtr.js';
@@ -24,6 +25,10 @@ if(process.env.NODE_ENV === 'development') {
 
 // routes
 app.use('/api/v1/auth', authRouter);
+
+// error handler
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

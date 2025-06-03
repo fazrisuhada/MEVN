@@ -1,5 +1,6 @@
 import userMdl from "../../models/userMdl.js";
 import jwt from "jsonwebtoken";
+import asyncHandler from "../../middlewares/asyncHandler.js";
 
 const signToken = id =>{
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -36,23 +37,17 @@ export const login = async(req,res) => {
     res.send('you are login')
 }
 
-export const register = async(req, res) => {   
-    try{
-        const { username, email, password } = req.body;
-        const createUser = await userMdl.create({
-            username,
-            email,
-            password
-        })
+export const register = asyncHandler(async(req, res) => {   
+    console.log(req.body);
+    const { username, email, password } = req.body;
+    const createUser = await userMdl.create({
+        username,
+        email,
+        password
+    })
 
-        createToken(createUser, 201, res, 'Registration successful.')
-    } catch(err) {
-        return res.status(400).json({
-            success: false,
-            message: err.message
-        })
-    }
-}
+    createToken(createUser, 201, res, 'Registration successful.')
+});
 
 export const logout = async(req, res) => {
     res.send('you are logout');
