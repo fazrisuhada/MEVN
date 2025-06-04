@@ -62,6 +62,12 @@ export const login = asyncHandler(async (req, res) => {
 
 // Fungsi untuk register user baru
 export const register = asyncHandler(async (req, res) => {
+
+    // Cek apakah user sudah ada
+    const exsitingUser = (await userMdl.countDocuments()) === 0;
+    // Set role
+    const role = exsitingUser ? 'admin' : 'user';
+
     // Ambil data dari body
     const { username, email, password } = req.body;
 
@@ -69,7 +75,8 @@ export const register = asyncHandler(async (req, res) => {
     const newUser = await userMdl.create({
         username,
         email,
-        password
+        password,
+        role
     });
 
     // Buat token dan kirim response sukses
