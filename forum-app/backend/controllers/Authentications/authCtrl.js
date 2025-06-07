@@ -84,9 +84,26 @@ export const register = asyncHandler(async (req, res) => {
 });
 
 export const logout = async(req, res) => {
-    res.send('you are logout');
+    const cookieOptions = {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production', //hanya berlaku di production
+        sameSite: 'strict',
+        path: '/'
+    }
+
+    res.cookie('jwt', '', cookieOptions)
+
+    res.status(200).json({
+        success: true,
+        message: 'You are logout.'
+    })
 }
 
 export const profile = async(req, res) => {
-    res.send('you are profile');
+    const user = await userMdl.findById(req.user.id).select({ password:0 });
+    if(user) {
+        return res.status(200).json({success: true, data: {user}});
+    }
+    return res.status(404).json({success: false, message: 'User not found.'});
 }

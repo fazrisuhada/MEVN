@@ -32,7 +32,7 @@ export const authLogin = async (req, res, next) => {
 
     // 3. ambil data user yang login
     const currentUser = await db.UserMdl.findById(decoded.id); // Menggunakan findById untuk MongoDB
-    console.log(currentUser);
+    // console.log(currentUser);
 
     if (!currentUser) {
         return res.status(401).json({
