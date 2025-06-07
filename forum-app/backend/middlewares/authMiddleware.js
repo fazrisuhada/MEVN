@@ -44,3 +44,15 @@ export const authLogin = async (req, res, next) => {
     req.user = currentUser;
     next();
 };
+
+export const userPermission = (...roles) => {
+    return(req, res, next) => {
+        if(!roles.includes(req.user.role)) {
+            return next(res.status(403).json({
+                success: false,
+                message: 'You are not allowed to access this route.'
+            }))
+        }
+        next();
+    }
+}
