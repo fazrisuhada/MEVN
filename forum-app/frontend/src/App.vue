@@ -1,24 +1,8 @@
 <template>
-  <h1>Selamat Datang {{ message }}</h1>
+  <Header />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
-
-const message = ref('');
-
-const fetchMessage = async () => {
-  try { 
-    const datas = await axios.get('http://localhost:3000/');
-    message.value = datas.data.message
-    console.log(datas);
-  } catch (error) {
-    console.log(error);
-  }
-} 
-
-onMounted(()=>{
-  fetchMessage();
-})
+import { ref } from "vue";
+import Header from "./layouts/navbar/Header.vue";
 </script>

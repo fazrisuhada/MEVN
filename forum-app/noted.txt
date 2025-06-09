@@ -17,3 +17,7 @@
 • npm i jsonwebtoken
 • npm i cookie-parser
 ##################################
+6. Layouting primevue 4 dan tailwind 4 di frontend
+• npm install primevue @primeuix/themes
+• npm install tailwindcss @tailwindcss/vite
+##################################
