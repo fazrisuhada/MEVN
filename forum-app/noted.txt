@@ -21,3 +21,6 @@
 • npm install primevue @primeuix/themes
 • npm install tailwindcss @tailwindcss/vite
 ##################################
+7. Mengatur ulang server side dengan vite 
+• install di BE npm i concurrently --save-dev (tool yang untuk menjalankan beberapa perintah/script secara bersamaan (concurrent) dalam satu terminal.)
+##################################
