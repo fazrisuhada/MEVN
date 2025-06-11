@@ -2,13 +2,13 @@
     <div class="card p-5">
         <Menubar :model="items">
             <template #end>
-                <Button label="Login" icon="pi pi-user" @click="visible=true" />
+                <Button label="Login" icon="pi pi-user" @click="showDialog=true" />
             </template>
         </Menubar>
     </div>
 
     <!-- dialog login start-->
-        <AuthFrm v-model:visible="visible" />
+        <AuthFrm v-model:visible="showDialog" />
     <!-- dialog login end -->
 </template>
 
@@ -16,8 +16,15 @@
 import { ref } from "vue";
 import Menubar from 'primevue/menubar';
 import AuthFrm from "@/components/Auth/AuthFrm.vue";
+// pinia
+import { storeToRefs } from "pinia";
+import { useAuthenticationStore } from "@/stores/authStore.js";
 
-const visible = ref(false);
+const authStore = useAuthenticationStore();
+
+// state pinia
+const { showDialog } = storeToRefs(authStore);
+
 const items = ref([
     {
         label: 'Home',
