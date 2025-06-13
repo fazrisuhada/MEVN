@@ -1,5 +1,5 @@
 import './assets/main.css';
-import { createApp } from 'vue';
+import { createApp, markRaw } from 'vue';
 import App from './App.vue';
 import router from './router/router'
 
@@ -12,6 +12,9 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import Dialog from 'primevue/dialog';
 import ToastService from 'primevue/toastservice';
+import SplitButton from 'primevue/splitbutton';
+import Avatar from 'primevue/avatar';
+
 
 // pinia
 import { createPinia } from 'pinia';
@@ -31,5 +34,11 @@ app.use(ToastService);
 app.component('InputText', InputText);
 app.component('Button', Button);
 app.component('Dialog', Dialog);
+app.component('SplitButton', SplitButton);
+app.component('Avatar', Avatar);
+
+pinia.use(({ store }) => {
+    store.$router = markRaw(router);
+})
 
 app.mount('#app')

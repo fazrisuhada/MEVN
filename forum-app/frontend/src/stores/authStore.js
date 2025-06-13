@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import useAPI from '@/api';
 import { defineStore } from 'pinia';
+import { useRouter } from 'vue-router';
 
 export const useAuthenticationStore = defineStore('auth', () => {
 
@@ -13,6 +14,7 @@ export const useAuthenticationStore = defineStore('auth', () => {
         password: ''    // Error khusus untuk field password
     });
     const currentUser = ref(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null);
+    const router = useRouter();
 
     // Helper
     const clearErrors = () => {
@@ -32,6 +34,20 @@ export const useAuthenticationStore = defineStore('auth', () => {
         isLoading.value = true;
 
         try {
+            let hasError = false;
+            if(!input.email) {
+                setFieldError('email', 'Email is required');
+                hasError = true;
+            }
+            if(!input.password) {
+                setFieldError('password', 'Password is required');
+                hasError = true;
+            }
+            if(hasError) {
+                isLoading.value = false;
+                return;
+            }
+            
             const { data } = await useAPI.post('/auth/login', {
                 email: input.email,
                 password: input.password
@@ -41,6 +57,7 @@ export const useAuthenticationStore = defineStore('auth', () => {
             localStorage.setItem('user', JSON.stringify(data.data));
             
             showDialog.value = false;
+            router.push({name: 'Dashboard'});
         } catch (error) {
             // Cek jenis error berdasarkan status code HTTP
             if (error.response?.status === 422) {
@@ -64,21 +81,32 @@ export const useAuthenticationStore = defineStore('auth', () => {
                 const message = error.response?.data?.message || 'Internal server error';
                 setFieldError('general', message);
             }
-
         } finally {
             isLoading.value = false;
         }
     };
+    const logoutStore = async() => {
+        try {
+            localStorage.setItem('user', null);
+            currentUser.value = null;
+            await useAPI.post('/auth/logout');
+            router.push({name: 'Home'});
+        } catch(error) {
+            console.log(error);
+        }
+    }
 
     return {
         // State variables
         showDialog,
         isLoading,
         errors,
+        currentUser,
 
         // Functions
         loginStore,
         clearErrors,
-        setFieldError
+        setFieldError,
+        logoutStore
     };
 });

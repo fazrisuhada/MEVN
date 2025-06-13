@@ -6,7 +6,7 @@
             pt:mask:class="backdrop-blur-sm"
         >
             <template #container="{ closeCallback }">
-                <form @submit.prevent="login">
+                <form @submit.prevent="handleLogin">
                     <div class="flex flex-col px-8 py-8 gap-6 rounded-2xl" style="background-image: radial-gradient(circle at left top, var(--p-primary-400), var(--p-primary-700))">
                         <svg width="35" height="40" viewBox="0 0 35 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="block mx-auto">
                             <path
@@ -84,9 +84,15 @@
 </template>
 
 <script setup>
-    import { ref, reactive } from "vue";
+    import { reactive } from "vue";
     import { useAuthenticationStore } from "@/stores/authStore.js";
     import MessageComponent from "./MessageComponent.vue";
+
+    // props
+    const show = defineModel('visible', {
+        type: Boolean,
+        default: false
+    });
 
     // state
     const input = reactive({
@@ -95,39 +101,12 @@
     });
 
     const authStore = useAuthenticationStore();
-    const { loginStore, clearErrors, setFieldError } = authStore;
+    const { loginStore, setFieldError, clearErrors } = authStore;
 
-    const show = defineModel('visible', {
-        type: Boolean,
-        default: false
-    });
-
-    const login = () => {
-        // Basic client-side validation
-        if (!input.email) {
-            setFieldError('email', 'Email is required');
-            return;
-        }
-        if (!input.password) {
-            setFieldError('password', 'Password is required');
-            return;
-        }
-
+    function clearFieldError(field) {
+        authStore.errors[field] = '';
+    }
+    function handleLogin() {
         loginStore(input);
-    };
-
-    const clearFieldError = (field) => {
-        if (authStore.errors[field]) {
-            authStore.errors[field] = '';
-        }
-        // Also clear general error when user starts typing
-        if (authStore.errors.general) {
-            authStore.errors.general = '';
-        }
-    };
-
-    const handleCancel = (closeCallback) => {
-        clearErrors();
-        closeCallback();
-    };
+    }
 </script>

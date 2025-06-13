@@ -1,7 +1,11 @@
 <template>
   <Toast position="bottom-left"/>
-        
-  <Header />
+  <div>
+    <Header />
+    <div class="p-5 ml-1">
+      <RouterView />
+    </div>
+  </div>
 </template>
 
 <script setup>

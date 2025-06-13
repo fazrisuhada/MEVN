@@ -1,5 +1,5 @@
 <template>
-    <h1>Selamat Datang Home View</h1>
+    <h1>Home page</h1>
 </template>
 
 <script>

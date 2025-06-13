@@ -1,8 +1,33 @@
 <template>
     <div class="card p-5">
-        <Menubar :model="items">
+        <Menubar 
+            :model="items"
+            class="!text-xs !font-medium !bg-white-500 !shadow-md !shadow-white-500/50"
+        >
             <template #end>
-                <Button label="Login" icon="pi pi-user" @click="showDialog=true" />
+                <Button 
+                    v-if="!authStore.currentUser"
+                    label="Login" 
+                    icon="pi pi-user" 
+                    @click="showDialog=true" 
+                />
+                <SplitButton
+                    v-else
+                    :model="itemsSplitBtn" 
+                    severity="secondary" 
+                    size="small" 
+                    outlined
+                >
+                    <span class="flex items-center cursor-pointer">
+                        <Avatar 
+                            image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" 
+                            class="mr-2"
+                            shape="circle"
+                            style="width: 22px; height: 22px;"
+                        />
+                        <span class="!text-xs">{{ authStore.currentUser.user.username }}</span>
+                    </span>
+                </SplitButton>
             </template>
         </Menubar>
     </div>
@@ -24,6 +49,8 @@ const authStore = useAuthenticationStore();
 
 // state pinia
 const { showDialog } = storeToRefs(authStore);
+// action pinia
+const { logoutStore } = authStore;
 
 const items = ref([
     {
@@ -49,6 +76,27 @@ const items = ref([
         icon: 'pi pi-envelope'
     }
 ]);
+
+const itemsSplitBtn = [
+    {
+        label: 'Dashboard',
+        class: '!text-xs',
+        command: () => {
+            toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+        }
+    },
+    {
+        separator: true
+    },
+    {
+        label: 'Sign Out',
+        class: '!text-xs',
+        command: () => {
+            logoutStore();
+        }
+    }
+];
+
 </script>
 
 <!-- <style scoped>
