@@ -12,6 +12,19 @@ const errorHandler = (err, req, res, next) => {
     let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     let message = err.message;
 
+    // Duplicate key error (misal: email sudah terdaftar)
+    if (err.code === 11000) {
+        // Cek field yang duplikat
+        const field = Object.keys(err.keyValue)[0];
+        message = {};
+        message[field] = [`${field.charAt(0).toUpperCase() + field.slice(1)} already exists.`];
+        statusCode = 422;
+        return res.status(statusCode).json({
+            errors: message,
+            stack: process.env.NODE_ENV === 'production' ? null : err.stack
+        });
+    }
+
     // Jika error karena ObjectId tidak valid (misal, id tidak ditemukan)
     if (err.name === 'CastError' && err.kind === 'ObjectId') {
         message = 'Resource not found';

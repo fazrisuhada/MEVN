@@ -6,7 +6,7 @@
             pt:mask:class="backdrop-blur-sm"
         >
             <template #container="{ closeCallback }">
-                <form @submit.prevent="handleLogin">
+                <form @submit.prevent="handleSubmit">
                     <div class="flex flex-col px-8 py-8 gap-6 rounded-2xl" style="background-image: radial-gradient(circle at left top, var(--p-primary-400), var(--p-primary-700))">
                         <svg width="35" height="40" viewBox="0 0 35 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="block mx-auto">
                             <path
@@ -18,6 +18,22 @@
                                 fill="var(--p-primary-200)"
                             />
                         </svg>
+
+                        <div class="inline-flex flex-col gap-2" v-if="!isLogin">
+                            <label for="username" class="text-primary-50 font-semibold">username</label>
+                            <InputText 
+                                id="username" 
+                                type="username" 
+                                v-model="input.username" 
+                                class="!bg-white/20 !border-0 !p-4 !text-primary-50 w-80"
+                                :class="{ '!border-red-500 !border-2': authStore.errors.username }"
+                                @input="clearFieldError('username')"
+                            />
+                            <MessageComponent 
+                                v-if="authStore.errors.username" 
+                                :message="authStore.errors.username"
+                            />
+                        </div>
 
                         <div class="inline-flex flex-col gap-2">
                             <label for="email" class="text-primary-50 font-semibold">Email</label>
@@ -69,12 +85,24 @@
                                 :disabled="authStore.isLoading"
                             />
                             <Button 
-                                :label="authStore.isLoading ? 'Signing In...' : 'Sign-In'" 
+                                :label="isLogin ? 'Sign-In' : 'Sign-Up'" 
                                 type="submit" 
                                 text 
                                 class="!p-4 w-full !text-slate-100 !border !border-white/30 hover:!bg-white/10"
                                 :disabled="authStore.isLoading"
+                                :loading="authStore.isLoading"
                             />
+                        </div>
+
+                        <div class="flex justify-center items-center mt-4">
+                            <p v-if="isLogin">
+                                Don't have an account ? 
+                                <span class="text-primary-50 cursor-pointer hover:text-emerald-300" @click="handleSiginUpClick" >Sign Up</span>
+                            </p>
+                            <p v-else>
+                                Already have an account ? 
+                                <span class="text-primary-50 cursor-pointer hover:text-emerald-300" @click="handleSiginInClick">Sign In</span>
+                            </p>
                         </div>
                     </div>
                 </form>
@@ -84,7 +112,7 @@
 </template>
 
 <script setup>
-    import { reactive } from "vue";
+    import { reactive, ref } from "vue";
     import { useAuthenticationStore } from "@/stores/authStore.js";
     import MessageComponent from "./MessageComponent.vue";
 
@@ -96,17 +124,42 @@
 
     // state
     const input = reactive({
+        username: '',
         email: '',
         password: ''
     });
+    const isLogin = ref(true);
 
     const authStore = useAuthenticationStore();
-    const { loginStore, setFieldError, clearErrors } = authStore;
+    const { loginStore, registerStore, setFieldError, clearErrors } = authStore;
 
     function clearFieldError(field) {
         authStore.errors[field] = '';
     }
-    function handleLogin() {
-        loginStore(input);
+
+    function clearForm() {
+        input.username = '';
+        input.email = '';
+        input.password = '';
+    }
+
+    function handleSiginInClick() {
+        isLogin.value = true;
+        clearErrors();
+    }
+
+    function handleSiginUpClick() {
+        isLogin.value = false;
+        clearErrors();
+    }
+    
+    function handleSubmit() {
+        if(isLogin.value === true) {
+            loginStore(input);
+            clearForm();
+        }else{
+            registerStore(input);
+            clearForm();
+        }
     }
 </script>
