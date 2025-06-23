@@ -30,3 +30,14 @@ onMounted(() => {
   setGlobalToast(toast);
 })
 </script>
+
+<style scoped>
+.p-toast-message-error .p-toast-icon {
+  display: none !important;
+}
+
+/* Alternatif lain */
+:deep(.p-toast-message-error .p-toast-icon) {
+  display: none !important;
+}
+</style>
