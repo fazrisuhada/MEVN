@@ -9,6 +9,7 @@ import { notFound, errorHandler } from './middlewares/errorHandler.js';
 
 // import routers
 import authRouter from './routers/authRtr.js';
+import questionRouter from './routers/questionRtr.js'
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,7 @@ if(process.env.NODE_ENV === 'development') {
 
 // routes
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/question', questionRouter)
 app.get('/api/v1/test', (req, res) => {
   res.status(200).json({success: true, message: 'Message from backend!'});
 })
