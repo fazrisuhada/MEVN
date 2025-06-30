@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import multer from 'multer';
 import { notFound, errorHandler } from './middlewares/errorHandler.js';
 
 // import routers
@@ -15,10 +16,14 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
+// Setup multer untuk form-data
+const upload = multer();
+
 // middleware
 // app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
+app.use(upload.none()); // Untuk form-data tanpa file
 app.use(cookieParser());
 if(process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
