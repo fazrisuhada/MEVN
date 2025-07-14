@@ -1,6 +1,7 @@
 import asyncHandler from "../../middlewares/asyncHandler.js";
 import questionMdl from "../../models/questionMdl.js";
 import mongoose from 'mongoose';
+import { checkPermission } from "../../utils/permission.js";
 
 export const allQuestions = asyncHandler(async(req, res) =>{
     const getQuestions = await questionMdl.find();
@@ -54,6 +55,51 @@ export const storeQuestion = asyncHandler(async(req, res) =>{
     })
 })
 
-export const updateQuestion = () =>{}
+export const updateQuestion = asyncHandler(async(req,res) =>{
+    const { title, content, category} = req.body;
+    const questionId = req.params.id;
 
-export const destroyQuestion = () =>{}
+    const fetchQuestion = await questionMdl.findById(questionId);
+
+    if(!fetchQuestion) {
+        return res.status(404).json({
+            success: false,
+            message: 'Question not found.'
+        });
+    }
+
+    checkPermission(req.user, fetchQuestion.userId, res);
+
+    fetchQuestion.title = title;
+    fetchQuestion.content = content;
+    fetchQuestion.category = category;
+
+    await fetchQuestion.save();
+
+    return res.status(200).json({
+        success: true,
+        message: 'Question updated successfully.'
+    })
+})
+
+export const destroyQuestion = asyncHandler(async(req, res) =>{
+    const questionId = req.params.id;
+    const fetchQuestion = await questionMdl.findById(req.params.id);
+
+    if(!fetchQuestion) {
+        return res.status(404).json({
+            success: false,
+            message: 'Question not found.'
+        });
+    }
+
+    checkPermission(req.user, fetchQuestion.userId, res);
+
+    await questionMdl.findByIdAndDelete(questionId);
+
+    return res.status(200).json({
+        success: true,
+        message: 'Question deleted successfully.'
+    })
+
+})
