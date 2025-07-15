@@ -17,7 +17,7 @@
             </div>
 
             <div v-if="isLoading" class="flex justify-center items-center py-8">
-                <ProgressSpinner style="width: 50px; height: 50px" strokeWidth="8" fill="transparent"            animationDuration=".5s" aria-label="Custom ProgressSpinner" />
+                <LoadingSpinner />
             </div>
 
             <div v-else-if="questions.length === 0" class="text-center py-8">
@@ -55,6 +55,7 @@ import FormQuestion from '@/components/Questions/FormQuestion.vue';
 import useAPI from '@/api';
 import { useGlobalToast } from '@/composables/useGlobalToast';
 import { useAuthenticationStore } from '@/stores/authStore';
+import LoadingSpinner from '@/components/General/LoadingSpinner.vue';
 
 // state
 const { showSuccess, showError } = useGlobalToast();

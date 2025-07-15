@@ -45,6 +45,7 @@ import AuthFrm from "@/components/Auth/AuthFrm.vue";
 // pinia
 import { storeToRefs } from "pinia";
 import { useAuthenticationStore } from "@/stores/authStore.js";
+import router from "@/router/router";
 
 const authStore = useAuthenticationStore();
 
@@ -56,25 +57,17 @@ const { logoutStore } = authStore;
 const items = ref([
     {
         label: 'Home',
-        icon: 'pi pi-home'
+        icon: 'pi pi-home',
+        command: () => {
+            router.push('/');
+        }
     },
     {
-        label: 'Projects',
-        icon: 'pi pi-search',
-        items: [
-            {
-                label: 'Components',
-                icon: 'pi pi-bolt'
-            },
-            {
-                label: 'Blocks',
-                icon: 'pi pi-server'
-            },
-        ]
-    },
-    {
-        label: 'Contact',
-        icon: 'pi pi-envelope'
+        label: 'About',
+        icon: 'pi pi-book',
+        command: () => {
+            router.push('/about');
+        }
     }
 ]);
 

@@ -3,9 +3,11 @@ import Home from '../views/HomeView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import { useAuthenticationStore } from '@/stores/authStore';
 import { useGlobalToast } from '@/composables/useGlobalToast';
+import About from '@/views/AboutView.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
+  { path: '/about', name: 'About', component:About },
   { 
     path: '/dashboard', 
     name: 'Dashboard', 
