@@ -20,7 +20,7 @@
                     </span>
                 </div>
             </template>
-            <RouterLink to="/" class="text-emerald-500 hover:underline text-2xl uppercase">
+            <RouterLink :to="{ name:'DetailQuestion', params:{ id: props.data._id}}" class="text-emerald-500 hover:underline text-2xl uppercase">
                 {{ props.data.title }}
             </RouterLink>
             <p class="mt-2 content-truncate" v-html="truncateHtmlContent(props.data.content, 100)" />

@@ -4,10 +4,24 @@ import DashboardView from '@/views/DashboardView.vue'
 import { useAuthenticationStore } from '@/stores/authStore';
 import { useGlobalToast } from '@/composables/useGlobalToast';
 import About from '@/views/AboutView.vue';
+import DetailQuestion from '@/components/Questions/DetailQuestion.vue';
 
 const routes = [
-  { path: '/', name: 'Home', component: Home },
-  { path: '/about', name: 'About', component:About },
+  { 
+    path: '/', 
+    name: 'Home', 
+    component: Home 
+  },
+  { 
+    path: '/about', 
+    name: 'About', 
+    component:About 
+  },
+  { 
+    path: '/question/:id', 
+    name: 'DetailQuestion', 
+    component:DetailQuestion 
+  },
   { 
     path: '/dashboard', 
     name: 'Dashboard', 
