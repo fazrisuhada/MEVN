@@ -10,6 +10,7 @@
                     label="Login" 
                     icon="pi pi-user" 
                     @click="showDialog=true" 
+                    class="!text-xs"
                 />
                 <SplitButton
                     v-else
